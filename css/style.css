@@ -1,0 +1,55 @@
+
+body {
+  background-color: lavender;
+}
+
+h1 {
+  color: black;
+  text-align: center;
+}
+
+p {
+  font-family: century;
+  font-size: 15px;
+}
+
+.coverphoto {
+  width: 200px;
+  height: auto;
+}
+
+.hhdj {
+  width: 200px;
+  height: auto;
+}
+
+.asucr1 {
+  width: 300px;
+  height: auto;
+}
+
+.asucr2 {
+  width: 300px;
+  height: auto;
+}
+
+.ra1 {
+  width: 300px;
+  height: auto;
+}
+
+.ra2 {
+  width: 300px;
+  height: auto;
+}
+
+.navigation {
+  background-color: lightskyblue;
+  color:floralwhite;
+  display: flex;
+  align-items: center;
+  padding:15px 15px;
+  border: none;
+  cursor: pointer;
+  justify-content: space-between;
+}
