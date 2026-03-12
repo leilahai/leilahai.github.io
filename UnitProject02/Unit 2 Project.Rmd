@@ -1,0 +1,424 @@
+---
+title: "Unit 2 Project"
+author: "Leila Haidar"
+date: "2026-02-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## **Lecture 6**
+
+install.packages("tidyverse")
+install.packages("palmerpenguins")
+
+```{r}
+library("tidyverse")
+library("palmerpenguins")
+penguins <- penguins %>%
+  drop_na(flipper_length_mm, body_mass_g, bill_length_mm, bill_depth_mm, sex)
+```
+
+### **Q1**
+
+```{r}
+ggplot(penguins, aes(x = island)) +
+  geom_bar(fill = "steelblue") +
+  labs(x = "Island", y = "Count")
+```
+
+Biscoe has the most penguins
+
+```{r}
+ggplot(penguins, aes(x = island)) +
+  geom_bar(fill = "steelblue") +
+  labs(x = "Island", y = "Count") +
+  theme_minimal(base_size = 16)
+```
+
+Adding theme_minimal() makes the graph look cleaner/more visually sound.
+
+### **Q2**
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 60,
+                 fill = "mediumpurple3",
+                 color = "mediumpurple1") +
+  labs(x = "body mass (g)",
+       y = "Count") +
+  theme_minimal(base_size = 15)
+```
+
+The general shape of the distribution is normal with a right skew. Changing bin number changes the range of the x-axis, or body mass.
+
+### **Q3**
+
+```{r}
+ggplot(penguins,
+       aes(x = species,
+           y = flipper_length_mm,
+           color = species)) +
+  geom_boxplot() +
+  labs(x = "Species", y="Flipper Length (mm)")+
+  theme_minimal()+
+  scale_color_brewer(palette = "Paired")+
+  theme(legend.position = "none")
+```
+
+Gentoo have longest flippers (~216 mm average)
+
+```{r}
+ggplot(penguins,
+       aes(x = sex,
+           y = body_mass_g,
+           color = sex)) +
+  geom_boxplot() +
+  labs(x = "Sex", y="Body Mass (g)")+
+  theme_minimal()+
+  scale_color_brewer(palette = "Accent")+
+  theme(legend.position = "none")
+```
+
+Males have on average a higher body mass.
+
+```{r}
+ggplot(penguins,
+       aes(x = species,
+           y = flipper_length_mm,
+           fill = species)) +
+  geom_boxplot() +
+  labs(x = "Species", y="Flipper Length (mm)")+
+  theme_minimal()+
+  theme(legend.position = "none")
+```
+
+### **Q4**
+
+```{r}
+ggplot(penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) +
+  geom_point(size = 2)+
+  geom_point(color = "mediumpurple1")+
+  labs(x = "Bill Length (mm)",
+       y = "Bill Depth (mm)")+
+    theme_minimal()
+```
+
+The relationship of the scatterplot is unclear. Adding a color makes the scatterplot slightly more readable, however overall still unclear.
+
+```{r}
+ggplot(penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) +
+  geom_point(size = 2)+
+  geom_point(color = "mediumpurple1")+
+  labs(x = "Bill Length (mm)",
+       y = "Bill Depth (mm)")+
+  theme_minimal()+
+  geom_smooth(method="lm", na.rm=TRUE)
+```
+
+Adding the line of best fit shows a slight negative relationship between Bill Length and Depth. Overall, however, the line does not fit the data well.
+
+### **Q5**
+
+```{r}
+ggplot(penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species)) +
+  geom_point(size = 1)+
+  facet_wrap(~species)+
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)")+
+  theme_minimal()+
+  scale_color_brewer(palette="Set2")
+```
+
+The Gentoo species shows the strongest relationship with Body mass and Flipper length.
+
+```{r}
+ggplot(penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species)) +
+  geom_point(size = 1)+
+  facet_wrap(sex~species)+
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)")+
+  theme_minimal()+
+  scale_color_brewer(palette="Set2")
+```
+
+The pattern indicates that male Gentoo penguins have the highest body mass. Additionally, body mass is generally higher among males, and Gentoo penguins are larger for both sexes.
+
+```{r}
+ggplot(penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species)) +
+  geom_point(size = 1)+
+  facet_wrap(~species)+
+  facet_wrap(~sex)+
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)")+
+  theme_minimal()+
+  scale_color_brewer(palette="Set2")
+```
+
+### **Q6**
+
+```{r}
+files<-ggplot(penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = island)) +
+  geom_point(size = 1)+
+  facet_wrap(sex~island)+
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)")+
+  theme_dark()+
+  scale_color_brewer(palette="Blues")
+files
+```
+
+### **Q7**
+
+- The most fun part of the exercise was being able to customize the colors of different graphs, and create my own graph.
+- The most confusing part of the exercise was determining the parameters format for each type of graph.
+
+## **Lecture 7**
+
+```{r}
+library("palmerpenguins")
+library("dplyr")
+library("tidyverse")
+library(readr)
+penguins_messy <- read_csv("penguins_messy.csv")
+view(penguins_messy)
+```
+
+### **Q1**
+
+```{r}
+str_detect(penguins_messy$species_messy, "adelie")
+?str_detect
+```
+
+Detects matching values, or if any values contain "adelie"
+
+```{r}
+str_replace_all(penguins_messy$sex_messy, "\\?", "")
+?str_replace_all
+```
+
+Replaces matching penguin sex values with a new text
+
+```{r}
+str_squish(penguins_messy$island_messy)
+?str_squish
+```
+
+Removes whitespace, or spaces/line breaks, in the island category.
+
+### **Q2**
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(valid_id = str_detect(sample_id, "PAL-[0-9]{3}"))
+
+penguins_messy %>%
+  pull(valid_id) %>%
+  sum
+```
+
+### **Q3**
+
+```{r}
+penguins_messy<- penguins_messy %>%
+  filter(valid_id)
+penguins_messy
+```
+
+### **Q4**
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(
+    file_date = str_extract(file_name, "^[0-9]{4}-[0-9]{2}-[0-9]{2}"),
+    file_id = str_extract(sample_id, "PAL-[0-9]{3}"))
+
+penguins_messy %>%
+  filter(row_number() <= 10) %>%
+  pull(file_date)
+penguins_messy %>%
+  filter(row_number() <= 10) %>%
+  pull(file_id)
+```
+
+### **Q5**
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(island=
+  str_squish(island_messy))
+
+unique(penguins_messy$island)
+```
+
+### **Q6**
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(sex=
+  str_replace_all(sex_messy,"\\?","") %>% str_to_upper)
+```
+
+*OR*
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(sex=
+  str_replace_all(sex_messy,"\\?",""))%>%
+  mutate(sex=
+  str_to_upper(sex))
+
+unique(penguins_messy$sex)
+```
+
+### **Q7**
+
+```{r}
+penguins_messy<-penguins_messy %>%
+  mutate(bill_mm=
+  str_replace_all(notes,"\\.*bill=|mm",""))
+
+unique(penguins_messy$bill_mm)
+```
+
+### **Q8**
+
+*Most fun/interesting part of exercise? Most confusing or difficult?*
+
+- The most interesting part was finally figuring out how to use the different str functions in the mutate function.
+
+- The most confusing/difficult part was also figuring out how to use the different str functions in the mutate function.
+
+*Do you feel you have a general idea of how regular expressions are used?*
+
+- Yes, though I will likely practice more because I only started to understand it towards the last question.
+
+## **Lecture 8**
+
+```{r}
+penguins <- palmerpenguins::penguins
+library("tidyverse")
+library("palmerpenguins")
+```
+
+### **Q1**
+
+```{r}
+penguins_clean <- penguins %>%
+  drop_na(bill_length_mm,sex)
+
+nrow(penguins_clean)
+nrow(penguins)
+```
+
+333 rows (oenguins clean) vs 344 (penguins)
+
+### **Q2**
+
+```{r}
+penguins_dup <- penguins_clean %>%
+  bind_rows(slice_sample(penguins_clean, n = 30, replace = TRUE))
+nrow(penguins_dup)
+penguins_dup %>% distinct %>% nrow
+```
+
+### **Q3**
+
+```{r}
+penguins_new <- penguins_clean %>%
+  select(species, island, sex, where(is.numeric))
+length(penguins_new)
+```
+
+8 total collumns, with 333 rows (penguins_new)
+
+### **Q4**
+
+```{r}
+penguins_bill <- penguins_clean %>%
+  select(starts_with("bill"),ends_with("_mm"))
+penguins_bill
+
+penguins_bill <- penguins_clean %>%
+  select(matches("bi.*|fli.*"))
+penguins_bill
+```
+
+### **Q5**
+
+```{r}
+penguins_species <- penguins_clean %>%
+  drop_na %>%
+  group_by(species) %>%
+  summarize(across(where(is.numeric),mean))
+penguins_species
+```
+
+The code across(where(is.numeric), …) is better than typics each column by hand because it is more efficient/faster.
+
+### **Q6**
+
+```{r}
+penguins_clean<-penguins_clean %>%
+  mutate(bill_length=
+           case_when(
+             bill_length_mm<40~"short",
+             bill_length_mm<50~"medium",
+             bill_length_mm>=50~"long"))
+penguins_clean
+penguins_clean$bill_length
+```
+
+### **Q7**
+
+```{r}
+instrument_meta <- tibble(
+  instrument_id = c("caliper_A", "caliper_B", "caliper_C"),
+  calibration_mm = c(0.2, 0.5, 1.0),
+  manufacturer = c("Mitutoyo", "Fowler", "Generic")
+)
+instrument_meta
+
+penguins_instrumented<-penguins_clean %>%
+  drop_na(bill_length_mm)%>%
+  mutate(instrument_id=
+         case_when(
+           year==2007~"caliper_A",
+           year==2008~"caliper_B",
+           year==2009~"caliper_C"))
+penguins_instrumented
+
+penguins_instrumented<-penguins_instrumented %>%
+  left_join(instrument_meta,by="instrument_id")
+
+penguins_instrumented
+length(penguins_instrumented)
+length(penguins_clean)
+```
+
+penguins_instrumented is 12 rows and penguins_clean is 9 rows.
+
+### **Q8**
+
+- Most fun/interesting part of the exercise: I liked making different dataframes and testing the different functions from lecture.
+- Most confusing/difficult part: The second half of number 7, and figuring out how to get left_join to work.
+- I feel like these general "survival tips" will be useful in future data analyses because they can allow for needed edits in a quick, efficient way.
